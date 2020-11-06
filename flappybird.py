@@ -8,6 +8,7 @@ WIDTH = 500
 HEIGHT = 800
 FPS = 120
 run = True
+dynamic_floor = 0
 
 #pygame initialisation
 pygame.init()
@@ -21,6 +22,11 @@ bg_surface = pygame.transform.scale(bg_surface,(WIDTH,HEIGHT))
 floor_surface = pygame.image.load('assets/images/sprites/Floor.png').convert()
 floor_surface = pygame.transform.scale2x(floor_surface)
 
+#drawing floor
+def draw_floor():
+    win.blit(floor_surface,(dynamic_floor,670))
+    win.blit(floor_surface,(dynamic_floor + 500 ,670))
+
 #game loop
 while run:
     
@@ -31,6 +37,10 @@ while run:
             sys.exit()
 
     win.blit(bg_surface,(0,0))
-    win.blit(floor_surface,(0,670))
+    dynamic_floor -= 1
+    draw_floor()
+    if dynamic_floor <= -500:
+        dynamic_floor = 0
+
     pygame.display.update()
     clock.tick(FPS)
