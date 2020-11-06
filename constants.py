@@ -1,5 +1,5 @@
 #game constants
-WIDTH = 500
+WIDTH = 524
 HEIGHT = 800
 FPS = 120
 run = True
