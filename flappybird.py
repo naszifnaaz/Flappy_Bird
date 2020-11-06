@@ -24,7 +24,7 @@ bird_surface = pygame.transform.scale2x(bird_surface)
 bird_rect = bird_surface.get_rect(center = (100, 400))
 
 
-#drawing floor
+#drawing dynamic floor
 def draw_floor():
     win.blit(floor_surface,(dynamic_floor,670))
     win.blit(floor_surface,(dynamic_floor + 500 ,670))
@@ -37,8 +37,17 @@ while run:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                bird_movement = 0
+                bird_movement -= 10
 
     win.blit(bg_surface,(0,0))
+
+    #implementing gravity
+    bird_movement += gravity
+    bird_rect.centery += bird_movement
+
     win.blit(bird_surface,bird_rect)
     dynamic_floor -= 1
     draw_floor()
