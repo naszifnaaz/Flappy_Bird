@@ -4,7 +4,7 @@ import pygame
 import sys
 
 #game constants
-WIDTH = 576
+WIDTH = 500
 HEIGHT = 800
 FPS = 120
 run = True
@@ -17,8 +17,9 @@ clock = pygame.time.Clock()
 
 #drawing background
 bg_surface = pygame.image.load('assets/images/sprites/Background.png').convert()
-bg_surface = pygame.transform.scale2x(bg_surface)
-win.blit(bg_surface,(0,0))
+bg_surface = pygame.transform.scale(bg_surface,(WIDTH,HEIGHT))
+floor_surface = pygame.image.load('assets/images/sprites/Floor.png').convert()
+floor_surface = pygame.transform.scale2x(floor_surface)
 
 #game loop
 while run:
@@ -29,5 +30,7 @@ while run:
             pygame.quit()
             sys.exit()
 
+    win.blit(bg_surface,(0,0))
+    win.blit(floor_surface,(0,670))
     pygame.display.update()
     clock.tick(FPS)
