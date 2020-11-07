@@ -56,6 +56,14 @@ def draw_pipe(pipes):
             flip_pipe = pygame.transform.flip(pipe_surface,False,True)
             win.blit(flip_pipe,pipe)
 
+#Collision detection
+def check_collision(pipes):
+    for pipe in pipes:
+        if bird_rect.colliderect(pipe):
+            print("Collission")
+    if bird_rect.top <= 100 or bird_rect.bottom >= 700:
+        print("Also Collission")
+
 #game loop
 while run:
     
@@ -77,6 +85,7 @@ while run:
     bird_movement += gravity
     bird_rect.centery += bird_movement
     win.blit(bird_surface,bird_rect)
+    check_collision(pipe_list)
     
 
     #Pipes
