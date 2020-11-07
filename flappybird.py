@@ -18,9 +18,17 @@ bg_surface = pygame.transform.scale(bg_surface,(WIDTH,HEIGHT))
 floor_surface = pygame.image.load('assets/images/sprites/Floor.png').convert()
 floor_surface = pygame.transform.scale2x(floor_surface)
 
-bird_surface = pygame.image.load('assets/images/sprites/Bird_mid.png').convert_alpha()
-bird_surface = pygame.transform.scale2x(bird_surface)
+bird_downflap = pygame.transform.scale2x(pygame.image.load('assets/images/sprites/Bird_down.png').convert_alpha())
+bird_midflap = pygame.transform.scale2x(pygame.image.load('assets/images/sprites/Bird_mid.png').convert_alpha())
+bird_upflap = pygame.transform.scale2x(pygame.image.load('assets/images/sprites/Bird_up.png').convert_alpha())
+bird_frames = [bird_downflap,bird_midflap,bird_upflap]
+bird_index = 0
+bird_surface = bird_frames[bird_index]
 bird_rect = bird_surface.get_rect(center = (100, 400))
+
+#bird_surface = pygame.image.load('assets/images/sprites/Bird_mid.png').convert_alpha()
+#bird_surface = pygame.transform.scale2x(bird_surface)
+#bird_rect = bird_surface.get_rect(center = (100, 400))
 
 pipe_surface = pygame.image.load('assets/images/sprites/Pipe.png').convert()
 pipe_surface = pygame.transform.scale2x(pipe_surface)
@@ -28,6 +36,9 @@ pipe_list = []
 pipe_height = [200,400,550]
 SPAWNPIPE = pygame.USEREVENT
 pygame.time.set_timer(SPAWNPIPE, 1500)
+
+BIRD_FLAP = pygame.USEREVENT + 1
+pygame.time.set_timer(BIRD_FLAP, 200)
 
 #drawing dynamic floor
 def draw_floor():
@@ -70,6 +81,12 @@ def rotate_bird(bird):
     new_bird = pygame.transform.rotozoom(bird, -bird_movement * 3,1)
     return new_bird
 
+#Bird flap animation
+def bird_animation():
+    new_bird = bird_frames[bird_index]
+    new_bird_rect = new_bird.get_rect(center = (100, bird_rect.centery))
+    return new_bird, new_bird_rect
+    
 #game loop
 while run:
     
@@ -90,6 +107,14 @@ while run:
 
         if event.type == SPAWNPIPE:
             pipe_list.extend(create_pipe())
+        
+        if event.type == BIRD_FLAP:
+            if bird_index < 2:
+                bird_index += 1
+            else:
+                bird_index = 0
+
+            bird_surface, bird_rect = bird_animation()
 
     win.blit(bg_surface,(0,0))
 
