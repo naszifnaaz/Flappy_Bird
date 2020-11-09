@@ -12,6 +12,10 @@ pygame.display.set_caption("Flappy Bird")
 clock = pygame.time.Clock()
 
 #loading assets
+
+#font
+game_font = pygame.font.Font('assets/font/04B_19.ttf',40)
+
 bg_surface = pygame.image.load('assets/images/sprites/Background.png').convert()
 bg_surface = pygame.transform.scale(bg_surface,(WIDTH,HEIGHT))
 
@@ -25,10 +29,6 @@ bird_frames = [bird_downflap,bird_midflap,bird_upflap]
 bird_index = 0
 bird_surface = bird_frames[bird_index]
 bird_rect = bird_surface.get_rect(center = (100, 400))
-
-#bird_surface = pygame.image.load('assets/images/sprites/Bird_mid.png').convert_alpha()
-#bird_surface = pygame.transform.scale2x(bird_surface)
-#bird_rect = bird_surface.get_rect(center = (100, 400))
 
 pipe_surface = pygame.image.load('assets/images/sprites/Pipe.png').convert()
 pipe_surface = pygame.transform.scale2x(pipe_surface)
@@ -86,7 +86,27 @@ def bird_animation():
     new_bird = bird_frames[bird_index]
     new_bird_rect = new_bird.get_rect(center = (100, bird_rect.centery))
     return new_bird, new_bird_rect
-    
+
+def score_display(game_active):
+    if game_active == 'main_game':
+        score_surface = game_font.render(str(int(SCORE)), True, WHITE)
+        score_rect = score_surface.get_rect(center = (262, 100))
+        win.blit(score_surface,score_rect)
+
+    if game_active == 'game_over':
+        score_surface = game_font.render(f'Score: {int(SCORE)}', True, WHITE)
+        score_rect = score_surface.get_rect(center = (262, 100))
+        win.blit(score_surface,score_rect)
+         
+        HIGHSCORE_surface = game_font.render(f'High Score: {int(HIGH_SCORE)}', True, WHITE)
+        HIGHSCORE_rect = score_surface.get_rect(center = (200, 670))
+        win.blit(HIGHSCORE_surface,HIGHSCORE_rect)
+
+def update_score(SCORE, HIGH_SCORE):
+    if SCORE > HIGH_SCORE:
+        HIGH_SCORE = SCORE
+    return HIGH_SCORE
+
 #game loop
 while run:
     
@@ -104,6 +124,7 @@ while run:
                 pipe_list.clear()
                 bird_rect.center = (100,400)
                 bird_movement = 0
+                SCORE = 0
 
         if event.type == SPAWNPIPE:
             pipe_list.extend(create_pipe())
@@ -131,6 +152,11 @@ while run:
         pipe_list = move_pipe(pipe_list)
         draw_pipe(pipe_list)
 
+        SCORE +=  0.01
+        score_display('main_game')
+    else :
+        HIGH_SCORE = update_score(SCORE, HIGH_SCORE)
+        score_display('game_over')
 
     #Floor
     dynamic_floor -= 1
