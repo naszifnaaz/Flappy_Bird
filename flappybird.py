@@ -37,6 +37,10 @@ pipe_height = [200,400,550]
 SPAWNPIPE = pygame.USEREVENT
 pygame.time.set_timer(SPAWNPIPE, 1500)
 
+gameover_surface = pygame.image.load('assets/images/sprites/Game_Over.png').convert_alpha()
+gameover_surface = pygame.transform.scale2x(gameover_surface)
+gameover_rect = gameover_surface.get_rect(center = (262, 400))
+
 BIRD_FLAP = pygame.USEREVENT + 1
 pygame.time.set_timer(BIRD_FLAP, 200)
 
@@ -99,7 +103,7 @@ def score_display(game_active):
         win.blit(score_surface,score_rect)
          
         HIGHSCORE_surface = game_font.render(f'High Score: {int(HIGH_SCORE)}', True, WHITE)
-        HIGHSCORE_rect = score_surface.get_rect(center = (200, 670))
+        HIGHSCORE_rect = score_surface.get_rect(center = (200, 685))
         win.blit(HIGHSCORE_surface,HIGHSCORE_rect)
 
 def update_score(SCORE, HIGH_SCORE):
@@ -155,6 +159,7 @@ while run:
         SCORE +=  0.01
         score_display('main_game')
     else :
+        win.blit(gameover_surface,gameover_rect)
         HIGH_SCORE = update_score(SCORE, HIGH_SCORE)
         score_display('game_over')
 
