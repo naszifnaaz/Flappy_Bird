@@ -13,6 +13,11 @@ clock = pygame.time.Clock()
 
 #loading assets
 
+#importing sound
+flap_sound = pygame.mixer.Sound('assets/sounds/sound_effects/Flap.ogg')
+hit_sound = pygame.mixer.Sound('assets/sounds/sound_effects/Hit.ogg')
+score_sound = pygame.mixer.Sound('assets/sounds/sound_effects/Point.ogg')
+
 #font
 game_font = pygame.font.Font('assets/font/04B_19.ttf',40)
 
@@ -75,8 +80,12 @@ def draw_pipe(pipes):
 def check_collision(pipes):
     for pipe in pipes:
         if bird_rect.colliderect(pipe):
+            hit_sound.play()
+            pygame.time.delay(300)
             return False
     if bird_rect.top <= -150 or bird_rect.bottom >= 700:
+        hit_sound.play()
+        pygame.time.delay(300)
         return False
     return True
 
@@ -123,6 +132,7 @@ while run:
             if event.key == pygame.K_SPACE and game_active == True:
                 bird_movement = 0
                 bird_movement -= 8
+                flap_sound.play() 
             if event.key == pygame.K_SPACE and game_active == False:
                 game_active = True
                 pipe_list.clear()

@@ -10,3 +10,4 @@ game_active = True
 SCORE = 0
 HIGH_SCORE = 0
 WHITE = (255,255,255)
+score_sound_countdown = 100
