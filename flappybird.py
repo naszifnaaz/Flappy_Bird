@@ -124,6 +124,20 @@ def update_score(SCORE, HIGH_SCORE):
         HIGH_SCORE = SCORE
     return HIGH_SCORE
 
+#scoring system updated
+def pipe_score_check():
+    global SCORE,can_score
+
+    if pipe_list:
+        for pipe in pipe_list:
+            if 95 < pipe.centerx < 105 and can_score:
+                SCORE+=1
+                score_sound.play()
+                can_score = False
+            
+            if pipe.centerx < 0:
+                can_score = True
+
 #game loop
 while RUN:
     #setting events
@@ -168,8 +182,7 @@ while RUN:
         #Pipes
         pipe_list = move_pipe(pipe_list)
         draw_pipe(pipe_list)
-
-        SCORE +=  0.01
+        pipe_score_check()
         score_display('main_game')
     else :
         win.blit(gameover_surface,gameover_rect)
