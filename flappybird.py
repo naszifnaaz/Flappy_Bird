@@ -67,7 +67,8 @@ def create_pipe():
 def move_pipe(pipes):
     for pipe in pipes:
         pipe.centerx -= 5
-    return pipes
+    visible_pipes = [pipe for pipe in pipes if pipe.right > -50]
+    return visible_pipes
 
 #drawing pipes
 def draw_pipe(pipes):
@@ -80,14 +81,17 @@ def draw_pipe(pipes):
 
 #collision detection
 def check_collision(pipes):
+    global can_score
     for pipe in pipes:
         if bird_rect.colliderect(pipe):
             hit_sound.play()
             pygame.time.delay(300)
+            can_score = True
             return False
     if bird_rect.top <= -150 or bird_rect.bottom >= 700:
         hit_sound.play()
         pygame.time.delay(300)
+        can_score = True
         return False
     return True
 
