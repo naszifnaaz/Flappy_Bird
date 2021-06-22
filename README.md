@@ -1,4 +1,6 @@
 # Flappy Bird Clone
+![GitHub repo size](https://img.shields.io/github/repo-size/naszifnaaz/FlappyBird?logo=GitHub)
+
 This is my attempt at creating the iconic Flappy Bird game using python and pygame.
 
 ## Abstract
@@ -17,12 +19,12 @@ Flappy Bird Clone is my version of the iconic flappy bird game which took the in
        $ git clone https://github.com/naszifnaaz/FlappyBird
     or download as zip and extract.
     
-2. In the root directory run
+2. In the root directory, run:
 
           $ pipenv install
           $ pipenv run python flappybird.py
 
-3.Use ↑ or Space key or LMB to play and Esc to close the game.
+3. Use ↑ or Space key or LMB to play and Esc to close the game.
           
 
 
